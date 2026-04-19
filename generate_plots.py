@@ -12,6 +12,7 @@ Usage
 # and timestamps arrays with the same parameters as in the notebook.
 # Use NumPy-style docstring with Parameters and Returns sections.
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 def generate_data(seed):
@@ -114,10 +115,6 @@ def plot_histogram(sensor_a, sensor_b, ax):
     ax.legend()
     return None
 
-# Create plot_boxplot(sensor_a, sensor_b, ax) that draws the side-by-side 
-# box plot from the notebook. Add labels and a dashed line at overall mean.
-# NumPy-style docstring. Modifies ax in place, returns None.
-
 
 def plot_boxplot(sensor_a, sensor_b, ax):
     """Plot side-by-side Sensor A and Sensor B box plots on an Axes.
@@ -146,3 +143,35 @@ def plot_boxplot(sensor_a, sensor_b, ax):
     ax.legend()
     return None
 
+# Create main() that generates data, creates a 1x3 subplot figure,
+# calls each plot function, adjusts layout, and saves as sensor_analysis.png
+# at 150 DPI with tight bounding box.
+
+
+def main():
+    """Generate sensor data, create plots, and save a combined figure.
+
+    Parameters
+    ----------
+    None
+
+    Returns
+    -------
+    None
+        Saves ``sensor_analysis.png`` and does not return a value.
+    """
+    sensor_a, sensor_b, timestamps = generate_data(seed=1234)
+
+    fig, axes = plt.subplots(1, 3, figsize=(18, 5))
+    plot_scatter(sensor_a, sensor_b, timestamps, axes[0])
+    plot_histogram(sensor_a, sensor_b, axes[1])
+    plot_boxplot(sensor_a, sensor_b, axes[2])
+
+    fig.tight_layout()
+    fig.savefig("sensor_analysis.png", dpi=150, bbox_inches="tight")
+    plt.close(fig)
+    return None
+
+
+if __name__ == "__main__":
+    main()
